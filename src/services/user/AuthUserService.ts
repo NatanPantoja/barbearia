@@ -28,12 +28,17 @@ class AuthUserService {
     }
 
     // Se deu tudo certo vamos gerar o token pro usuario.
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+      throw new Error("JWT_SECRET is not defined in .env");
+    }
+
     const token = sign(
       {
         name: user.name,
         email: user.email,
       },
-      process.env.JWT_SECRET,
+      secret,
       {
         subject: user.id,
         expiresIn: "30d",
