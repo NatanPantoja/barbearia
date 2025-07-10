@@ -52,6 +52,7 @@ model Service {
   name       String
   price      Float
   duration   Int // minutos
+  image        String?   // <-- novo campo (opcional)
   createdAt  DateTime @default(now())
   business   Business @relation(fields: [businessId], references: [id])
   businessId String
