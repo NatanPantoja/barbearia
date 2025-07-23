@@ -24,13 +24,13 @@ class AuthUserService {
     const passwordMatch = await compare(password, user.password);
 
     if (!passwordMatch) {
-      throw new Error("User/password incorrect");
+      throw new Error("Usuário ou senha incorreto");
     }
 
     // Se deu tudo certo vamos gerar o token pro usuario.
     const secret = process.env.JWT_SECRET;
     if (!secret) {
-      throw new Error("JWT_SECRET is not defined in .env");
+      throw new Error("Usuário ou senha incorreto");
     }
 
     const token = sign(
@@ -41,7 +41,7 @@ class AuthUserService {
       secret,
       {
         subject: user.id,
-        expiresIn: "30d",
+        expiresIn: "1h",
       }
     );
 

@@ -5,8 +5,8 @@ import { CreateUserController } from "./controllers/user/CreateUserController";
 import { AuthUserController } from "./controllers/user/AuthUserController";
 import { DetailuserController } from "./controllers/user/DetailUserController";
 
-import { CreateServiceController } from "./controllers/service/CreateServiceController";
-import { DeleteServiceController } from "./controllers/service/DeleteServiceController";
+import { CreateProdutoController } from "./controllers/produto/CreateProdutoController";
+import { DeleteServiceController } from "./controllers/produto/DeleteProdutoController";
 
 import { isAuthenticated } from "./middlewares/isAuthenticated";
 
@@ -18,20 +18,10 @@ const upload = multer(uploadConfig.upload("./tmp"));
 
 //-- ROTAS USER --
 router.post("/users", new CreateUserController().handle);
-router.post("/session", new AuthUserController().handle);
+router.post("/login", new AuthUserController().handle);
 router.get("/me", isAuthenticated, new DetailuserController().handle);
 
-//-- ROTAS SERVICES
-router.post(
-  "/service",
-  isAuthenticated,
-  upload.single("file"),
-  new CreateServiceController().handle
-);
-router.delete(
-  "/service/:id",
-  isAuthenticated,
-  new DeleteServiceController().handle
-);
+//-- ROTAS PRODUTO --
+router.post("/produto", isAuthenticated, new CreateProdutoController().handle);
 
 export { router };
