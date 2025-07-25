@@ -1,15 +1,21 @@
 import { Request, Response } from "express";
-import { DeleteService } from "../../services/produto/DeleteProdutoService";
+import { DeleteProdutoService } from "../../services/produto/DeleteProdutoService";
 
-class DeleteServiceController {
+class DeleteProdutoController {
   async handle(req: Request, res: Response) {
-    const serviceId = req.params.id;
+    // Pegamos o ID do produto do query parameter da URL
+    const produto_id = req.query.id as string;
 
-    const deleteService = new DeleteService();
-    const service = await deleteService.execute(serviceId);
+    const deleteProdutoService = new DeleteProdutoService();
 
-    return res.json(service);
+    // Executa o serviço e passa o ID
+    const produto = await deleteProdutoService.execute({
+      produto_id,
+    });
+
+    // Retorna o produto que foi deletado como confirmação
+    return res.json(produto);
   }
 }
 
-export { DeleteServiceController };
+export { DeleteProdutoController };

@@ -3,11 +3,31 @@ import { CreateProdutoService } from "../../services/produto/CreateProdutoServic
 
 class CreateProdutoController {
   async handle(req: Request, res: Response) {
+    const { name, price, duration, description } = req.body;
+
+    // --- BOA PRÁTICA: Limpando e tratando os dados ---
+    const trimmedName = name ? name.trim() : "";
+    const trimmedDescription = description ? description.trim() : "";
+    const parsedPrice = price ? price.trim() : "";
+    const parsedDuration = duration ? duration.trim() : "";
+
     const createProdutoService = new CreateProdutoService();
 
-    const produto = await createProdutoService.execute();
+    if (!req.file) {
+      throw new Error("Error uploading file");
+    } else {
+      const { filename: banner } = req.file;
 
-    return res.json(produto);
+      const produto = await createProdutoService.execute({
+        name: trimmedName,
+        price: parsedPrice,
+        duration: Number(parsedDuration),
+        description: trimmedDescription,
+        banner,
+      });
+
+      return res.json(produto);
+    }
   }
 }
 

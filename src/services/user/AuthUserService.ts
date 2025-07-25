@@ -41,7 +41,7 @@ class AuthUserService {
       secret,
       {
         subject: user.id,
-        expiresIn: "1h",
+        expiresIn: "30d",
       }
     );
 

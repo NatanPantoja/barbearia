@@ -6,7 +6,7 @@ import { AuthUserController } from "./controllers/user/AuthUserController";
 import { DetailuserController } from "./controllers/user/DetailUserController";
 
 import { CreateProdutoController } from "./controllers/produto/CreateProdutoController";
-import { DeleteServiceController } from "./controllers/produto/DeleteProdutoController";
+import { DeleteProdutoController } from "./controllers/produto/DeleteProdutoController";
 
 import { isAuthenticated } from "./middlewares/isAuthenticated";
 
@@ -22,6 +22,16 @@ router.post("/login", new AuthUserController().handle);
 router.get("/me", isAuthenticated, new DetailuserController().handle);
 
 //-- ROTAS PRODUTO --
-router.post("/produto", isAuthenticated, new CreateProdutoController().handle);
+router.post(
+  "/produto",
+  isAuthenticated,
+  upload.single("file"),
+  new CreateProdutoController().handle
+);
+router.delete(
+  "/produto",
+  isAuthenticated,
+  new DeleteProdutoController().handle
+);
 
 export { router };
